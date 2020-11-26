@@ -54,7 +54,7 @@ jobs:
       id: build-image
       env:
         ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: sabre
+        ECR_REPOSITORY: next-uk-post-codes 
         IMAGE_TAG: latest
       run: |
         # Build a docker container and
@@ -69,13 +69,13 @@ jobs:
       uses: aws-actions/amazon-ecs-render-task-definition@v1
       with:
         task-definition: ecs-task-definition.json
-        container-name: sabre
+        container-name: next-uk-post-codes 
         image: ${{ steps.build-image.outputs.image }}
 
     - name: Deploy Amazon ECS task definition
       uses: aws-actions/amazon-ecs-deploy-task-definition@v1
       with:
         task-definition: ${{ steps.task-def.outputs.task-definition }}
-        service: sabre
-        cluster: sabre
+        service: next-uk-post-codes-ecs-service 
+        cluster: next-uk-post-codes-cluster 
         wait-for-service-stability: true
